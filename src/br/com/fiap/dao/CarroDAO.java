@@ -4,7 +4,9 @@ import br.com.fiap.dto.Carro;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CarroDAO {
     // atributo
@@ -67,6 +69,28 @@ public class CarroDAO {
             }
         } catch (SQLException e) {
             return "Erro de SQL: " + e.getMessage();
+        }
+    }
+
+    public ArrayList<Carro> ListarTodos() {
+        String sql = "select * from ddd_carro order by placa";
+        ArrayList<Carro> listaCarro = new ArrayList<>();
+        try (PreparedStatement ps = getCon().prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            if (rs != null) {
+                while (rs.next()) {
+                    Carro carro = new Carro();
+                    carro.setPlaca(rs.getString(1));
+                    carro.setCor(rs.getString(2));
+                    carro.setDescricao(rs.getString(3));
+                    listaCarro.add(carro);
+                }
+                return listaCarro;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro de SQL: " + e.getMessage());
+            return null;
         }
     }
 }
