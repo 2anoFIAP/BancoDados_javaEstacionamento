@@ -35,7 +35,7 @@ public class ClienteDAO {
         }
     }
     public String alterar(Cliente cliente) {
-        String sql = "update ddd_cliente set id_cliente=?, nome_cliente=? where placa=?";
+        String sql = "update ddd_cliente set placa=?, nome_cliente=? where id_cliente=?";
         try(PreparedStatement ps = getCon().prepareStatement(sql)) {
             ps.setInt(1, cliente.getIdCliente());
             ps.setString(2, cliente.getNomeCliente());
